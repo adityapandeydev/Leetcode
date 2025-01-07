@@ -8,7 +8,7 @@ var reverse = function(x) {
     while (x !== 0) {
         const rem = x % 10;
         rev = rev * 10 + rem;
-        x = (x / 10) | 0; // Remove fractional part, simulating integer division
+        x = (x / 10) | 0;
     }
 
     if (rev < -(2 ** 31) || rev > 2 ** 31 - 1) {
