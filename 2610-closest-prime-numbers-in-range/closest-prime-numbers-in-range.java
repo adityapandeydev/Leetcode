@@ -1,41 +1,36 @@
 class Solution {
     public int[] closestPrimes(int left, int right) {
-        int index = 0;
-        int smallest;
-        int difference;
-        int smallestDifference = Integer.MAX_VALUE;
-        List<Integer> list = new ArrayList<>();
-        List<Integer> gap = new ArrayList<>();
-        int[] ans = new int[2];
-        while(left <= right) {
-            if (checkPrime(left))
-                list.add(left);
-            left++;
+        boolean[] isPrime = new boolean[right + 1];
+        for (int i = 2; i <= right; i++) {
+            isPrime[i] = true;
         }
-        for (int i = 0; i < list.size() - 1; i++) {
-            difference = list.get(i + 1) - list.get(i);
-            gap.add(difference);
-            if (difference < smallestDifference) {
-                smallestDifference = difference;
-                index = i;
-            }
-        }
-        System.out.println(list);
-        if (list.size() < 2 || smallestDifference == 0) 
-            return new int[]{-1, -1};
-        return new int[]{list.get(index), list.get(index + 1)};
-    }
 
-    public boolean checkPrime(int num) {
-        if (num == 1)
-            return false;
-        int i = 2;
-        while (i * i <= num) {
-            if (num % i == 0) {
-                return false;
+        for (int i = 2; i * i <= right; i++) {
+            if (isPrime[i]) {
+                for (int j = i * i; j <= right; j += i) {
+                    isPrime[j] = false;
+                }
             }
-            i++;
         }
-        return true;
+
+        List<Integer> primes = new ArrayList<>();
+        for (int i = Math.max(left, 2); i <= right; i++) {
+            if (isPrime[i]) {
+                primes.add(i);
+            }
+        }
+
+        int smallestDifference = Integer.MAX_VALUE;
+        int[] result = new int[2];
+
+        for (int i = 0; i < primes.size() - 1; i++) {
+            int diff = primes.get(i + 1) - primes.get(i);
+            if (diff < smallestDifference) {
+                smallestDifference = diff;
+                result[0] = primes.get(i);
+                result[1] = primes.get(i + 1);
+            }
+        }
+        return (result[0] == 0) ? new int[]{-1, -1} : result;
     }
 }
