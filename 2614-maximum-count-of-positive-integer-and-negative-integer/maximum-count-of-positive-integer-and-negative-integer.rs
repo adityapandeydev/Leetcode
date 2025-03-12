@@ -13,6 +13,6 @@ impl Solution {
             i += 1;
         }
 
-        std::cmp::max(neg_count, (nums.len() - i) as i32)
+        neg_count.max((nums.len() - i) as i32)
     }
 }
