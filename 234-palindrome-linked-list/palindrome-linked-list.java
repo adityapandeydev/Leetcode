@@ -10,20 +10,18 @@
  */
 class Solution {
     public boolean isPalindrome(ListNode head) {
-       List<Integer> arr = new ArrayList<>();
+       Stack<Integer> stack = new Stack<>();
        ListNode current = head;
        while(current != null) {
-           arr.add(current.val);
-           current = current.next;
+        stack.push(current.val);
+        current = current.next;
        }
-       int l = 0;
-       int r = arr.size() - 1;
-       while(l < r) {
-           if(!arr.get(l).equals(arr.get(r))) {
-               return false;
-           }
-           l++;
-           r--;
+       current = head;
+       while(current != null) {
+        if (current.val != stack.pop()) {
+            return false;
+        }
+        current = current.next;
        }
        return true;
     }
